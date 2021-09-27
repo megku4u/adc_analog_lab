@@ -1,12 +1,10 @@
 fs = 300e3; % this is the sample rate
 fc = 90.8e6; % this is the center frequency
-fc2 = 107.7e6;
 
 x = zeros(3e6,1); % empty vector to store data
 
 % create object for RTL-SDR receiver
-rx = comm.SDRRTLReceiver('CenterFrequency',fc, 'EnableTunerAGC', false, 'TunerGain', 35,  'SampleRate', fs);
-% rx = comm.SDRRTLReceiver('CenterFrequency',fc2, 'EnableTunerAGC', false, 'TunerGain', 35,  'SampleRate', fs);
+rx = comm.SDRRTLReceiver('CenterFrequency',fc, 'EnableTunerAGC', false, 'TunerGain', 29,  'SampleRate', fs);
 
 counter = 1; % initialize a counter
 while(counter < length(x)) % while the buffer for data is not full
@@ -18,3 +16,5 @@ end
 % separate real and imaginary part, and remove any DC offset
 y_I = real(x)-mean(real(x));
 y_Q = imag(x)-mean(imag(x));
+
+save("data/npr_eek.mat", 'y_I', 'y_Q', 'fs', 'fc');
